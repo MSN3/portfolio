@@ -1,0 +1,686 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikhil Shanbhogue — AI/ML Engineer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600;700;800&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0B0E11;
+    --surface: #12161B;
+    --surface-2: #161B22;
+    --border: #232A33;
+    --text: #E8EAED;
+    --text-dim: #7C8A99;
+    --text-faint: #4B5563;
+    --accent: #5EEAD4;
+    --accent-dim: #2DD4BF;
+    --warn: #F59E0B;
+    --mono: 'JetBrains Mono', monospace;
+    --sans: 'Inter', sans-serif;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: var(--sans);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(var(--border) 1px, transparent 1px),
+      linear-gradient(90deg, var(--border) 1px, transparent 1px);
+    background-size: 64px 64px;
+    opacity: 0.15;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  a { color: inherit; }
+  a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+  ::selection { background: var(--accent); color: var(--bg); }
+
+  .wrap {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 0 24px;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ── NAV ───────────────────────────────────────── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    background: rgba(11,14,17,0.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+  }
+  .nav-inner {
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 16px 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .nav-brand {
+    font-family: var(--mono);
+    font-weight: 700;
+    font-size: 14px;
+    color: var(--accent);
+    letter-spacing: 0.02em;
+  }
+  .nav-links { display: flex; gap: 28px; }
+  .nav-links a {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--text-dim);
+    text-decoration: none;
+    transition: color 0.15s ease;
+  }
+  .nav-links a:hover { color: var(--accent); }
+
+  @media (max-width: 600px) {
+    .nav-links { gap: 16px; }
+    .nav-links a { font-size: 12px; }
+  }
+
+  /* ── HERO / TERMINAL ───────────────────────────── */
+  .hero { padding: 72px 0 56px; }
+
+  .terminal {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(0,0,0,0.6);
+  }
+  .terminal-bar {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 16px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-2);
+  }
+  .dot { width: 10px; height: 10px; border-radius: 50%; }
+  .dot-r { background: #FF5F57; }
+  .dot-y { background: #FEBC2E; }
+  .dot-g { background: #28C840; }
+  .terminal-title {
+    margin-left: 8px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+  }
+  .terminal-body {
+    padding: 28px 24px 32px;
+    font-family: var(--mono);
+    font-size: 14px;
+  }
+  .terminal-line { display: flex; gap: 10px; margin-bottom: 6px; flex-wrap: wrap; }
+  .prompt { color: var(--accent-dim); flex-shrink: 0; }
+  .cmd { color: var(--text); }
+  .out { color: var(--text-dim); margin-left: 20px; margin-bottom: 4px; }
+  .out .key { color: var(--accent); }
+
+  #typedCmd::after {
+    content: "";
+    display: inline-block;
+    width: 8px;
+    height: 15px;
+    background: var(--accent);
+    margin-left: 2px;
+    vertical-align: text-bottom;
+    animation: blink 1s step-end infinite;
+  }
+  #typedCmd.done::after { animation: blink 1s step-end infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+
+  .hero-reveal { opacity: 0; transform: translateY(6px); transition: opacity 0.5s ease, transform 0.5s ease; }
+  .hero-reveal.show { opacity: 1; transform: translateY(0); }
+
+  .name-block { margin-top: 28px; }
+  .name-block h1 {
+    font-family: var(--mono);
+    font-size: clamp(28px, 5vw, 42px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    line-height: 1.15;
+  }
+  .name-block h1 span { color: var(--accent); }
+  .tagline {
+    margin-top: 10px;
+    font-size: 16px;
+    color: var(--text-dim);
+    max-width: 58ch;
+  }
+  .tagline strong { color: var(--text); font-weight: 600; }
+
+  .hero-links {
+    margin-top: 24px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+  .btn {
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 9px 16px;
+    border-radius: 6px;
+    border: 1px solid var(--border);
+    text-decoration: none;
+    color: var(--text);
+    background: var(--surface);
+    transition: border-color 0.15s ease, color 0.15s ease, transform 0.15s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .btn:hover { border-color: var(--accent); color: var(--accent); transform: translateY(-1px); }
+  .btn-primary { background: var(--accent); color: var(--bg); border-color: var(--accent); font-weight: 600; }
+  .btn-primary:hover { background: var(--accent-dim); color: var(--bg); }
+
+  /* ── SECTION LABELS ────────────────────────────── */
+  .section { padding: 48px 0; border-top: 1px solid var(--border); }
+  .section-label {
+    font-family: var(--mono);
+    font-size: 13px;
+    color: var(--accent);
+    margin-bottom: 24px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .section-label::before { content: "$"; color: var(--text-faint); }
+  .section-sub {
+    font-family: var(--sans);
+    font-size: 14px;
+    color: var(--text-dim);
+    margin-top: -14px;
+    margin-bottom: 24px;
+  }
+
+  /* ── ABOUT ─────────────────────────────────────── */
+  .about-grid {
+    display: grid;
+    grid-template-columns: 1.3fr 1fr;
+    gap: 32px;
+  }
+  @media (max-width: 700px) { .about-grid { grid-template-columns: 1fr; } }
+  .about-text p { color: var(--text-dim); margin-bottom: 14px; font-size: 15px; }
+  .about-text strong { color: var(--text); font-weight: 600; }
+  .stack-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 18px 20px;
+  }
+  .stack-card h4 {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--text-faint);
+    margin-bottom: 10px;
+  }
+  .stack-card h4:not(:first-child) { margin-top: 18px; }
+  .chip-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .chip {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-dim);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    padding: 4px 9px;
+    border-radius: 5px;
+  }
+
+  /* ── PROJECTS ──────────────────────────────────── */
+  .project-list { display: flex; flex-direction: column; gap: 14px; }
+  .project-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 22px 24px;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .project-card:hover { border-color: var(--accent-dim); transform: translateY(-2px); }
+  .project-head {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 6px;
+  }
+  .project-title { font-size: 16px; font-weight: 700; }
+  .project-date { font-family: var(--mono); font-size: 12px; color: var(--text-faint); white-space: nowrap; }
+  .project-sub { font-family: var(--mono); font-size: 12px; color: var(--accent-dim); margin-bottom: 12px; }
+  .project-desc { color: var(--text-dim); font-size: 14px; margin-bottom: 12px; }
+  .project-metrics { display: flex; flex-wrap: wrap; gap: 8px; }
+  .metric {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--warn);
+    background: rgba(245, 158, 11, 0.08);
+    border: 1px solid rgba(245, 158, 11, 0.25);
+    padding: 3px 9px;
+    border-radius: 5px;
+  }
+
+  /* ── EXPERIENCE ────────────────────────────────── */
+  .exp-item { display: flex; gap: 20px; padding: 16px 0; border-bottom: 1px solid var(--border); }
+  .exp-item:last-child { border-bottom: none; }
+  .exp-date {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text-faint);
+    width: 130px;
+    flex-shrink: 0;
+    padding-top: 2px;
+  }
+  .exp-role { font-weight: 700; font-size: 15px; }
+  .exp-org { font-family: var(--mono); font-size: 12px; color: var(--accent-dim); margin-top: 2px; margin-bottom: 8px; }
+  .exp-desc { color: var(--text-dim); font-size: 14px; }
+  @media (max-width: 600px) {
+    .exp-item { flex-direction: column; gap: 6px; }
+    .exp-date { width: auto; }
+  }
+
+  /* ── EDUCATION ─────────────────────────────────── */
+  .edu-item { padding: 14px 0; border-bottom: 1px solid var(--border); display: flex; justify-content: space-between; gap: 16px; flex-wrap: wrap; }
+  .edu-item:last-child { border-bottom: none; }
+  .edu-school { font-weight: 700; font-size: 15px; }
+  .edu-degree { color: var(--text-dim); font-size: 14px; margin-top: 2px; }
+  .edu-date { font-family: var(--mono); font-size: 12px; color: var(--text-faint); white-space: nowrap; }
+
+  /* ── PUBLICATIONS ──────────────────────────────── */
+  .pub-item {
+    padding: 14px 18px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 2px solid var(--accent-dim);
+    border-radius: 6px;
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: var(--text-dim);
+  }
+  .pub-item strong { color: var(--text); }
+  .pub-item a { color: var(--accent); text-decoration: none; font-family: var(--mono); font-size: 12px; }
+  .pub-item a:hover { text-decoration: underline; }
+
+  /* ── FOOTER ────────────────────────────────────── */
+  footer {
+    border-top: 1px solid var(--border);
+    padding: 32px 0 48px;
+    text-align: center;
+  }
+  footer p { font-family: var(--mono); font-size: 12px; color: var(--text-faint); }
+  footer a { color: var(--text-dim); text-decoration: none; }
+  footer a:hover { color: var(--accent); }
+
+  /* ── SCROLL REVEAL ─────────────────────────────── */
+  .reveal { opacity: 0; transform: translateY(14px); transition: opacity 0.6s ease, transform 0.6s ease; }
+  .reveal.show { opacity: 1; transform: translateY(0); }
+
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal, .hero-reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-inner">
+    <div class="nav-brand">nikhil.sh</div>
+    <div class="nav-links">
+      <a href="#about">about</a>
+      <a href="#projects">projects</a>
+      <a href="#experience">experience</a>
+      <a href="#publications">publications</a>
+      <a href="https://scholar.google.com/citations?hl=en&user=sj7dA1MAAAAJ" target="_blank" rel="noopener">scholar ↗</a>
+    </div>
+  </div>
+</nav>
+
+<div class="wrap">
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="terminal">
+      <div class="terminal-bar">
+        <div class="dot dot-r"></div>
+        <div class="dot dot-y"></div>
+        <div class="dot dot-g"></div>
+        <div class="terminal-title">nikhil@gatech — zsh</div>
+      </div>
+      <div class="terminal-body">
+        <div class="terminal-line">
+          <span class="prompt">➜</span>
+          <span class="cmd" id="typedCmd"></span>
+        </div>
+        <div id="terminalOutput"></div>
+      </div>
+    </div>
+
+    <div class="name-block hero-reveal" id="nameBlock">
+      <h1>Nikhil Shanbhogue <span>/</span> AI/ML Engineer</h1>
+      <p class="tagline">
+        I build <strong>agentic systems and multimodal models for healthcare and cancer research</strong> —
+        from LLM diagnostic pipelines validated on real clinical data, to VLMs that stage pediatric liver
+        tumors from CT scans. Currently a PhD researcher in Georgia Tech's ECE department, at the Madabhushi Lab.
+      </p>
+      <div class="hero-links">
+        <a class="btn btn-primary" href="mailto:nshanbhogue6@gatech.edu">Get in touch</a>
+        <a class="btn" href="https://scholar.google.com/citations?hl=en&user=sj7dA1MAAAAJ" target="_blank" rel="noopener">Google Scholar ↗</a>
+        <a class="btn" href="https://github.com/MSN3" target="_blank" rel="noopener">GitHub ↗</a>
+        <a class="btn" href="https://www.linkedin.com/in/nikhilmshanbhogue" target="_blank" rel="noopener">LinkedIn ↗</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section reveal" id="about">
+    <div class="section-label">about</div>
+    <div class="about-grid">
+      <div class="about-text">
+        <p>
+          I'm a PhD student in <strong>Electrical &amp; Computer Engineering at Georgia Tech</strong>,
+          working at the intersection of <strong>agentic AI and healthcare</strong>. My research spans
+          frugal LLM diagnostic pipelines, multi-agent systems for drug discovery, and vision-language
+          models for medical imaging — with a consistent focus on systems that are grounded, evaluated
+          rigorously, and useful in resource-constrained settings.
+        </p>
+        <p>
+          Before my PhD, I completed my MS at Georgia Tech (GPA 3.95) and worked across AI agent
+          development, sentiment/semantic modeling, and supply-chain analytics. I like building things
+          end-to-end — from data pipelines to evaluation harnesses to the UI a domain expert actually uses.
+        </p>
+      </div>
+      <div class="stack-card">
+        <h4>Languages</h4>
+        <div class="chip-row">
+          <span class="chip">Python</span><span class="chip">C++</span><span class="chip">C</span><span class="chip">Shell</span>
+        </div>
+        <h4>ML / AI</h4>
+        <div class="chip-row">
+          <span class="chip">PyTorch</span><span class="chip">TensorFlow</span><span class="chip">Transformers</span>
+          <span class="chip">LangGraph</span><span class="chip">vLLM</span><span class="chip">RAG</span>
+        </div>
+        <h4>Tools</h4>
+        <div class="chip-row">
+          <span class="chip">Docker</span><span class="chip">AWS</span><span class="chip">Git</span>
+          <span class="chip">Slurm</span><span class="chip">PostgreSQL</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section reveal" id="projects">
+    <div class="section-label">projects</div>
+    <div class="section-sub">Selected research &amp; systems work, most recent first.</div>
+    <div class="project-list">
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">Benchmarking VLMs for Hepatoblastoma PRETEXT Staging</span>
+          <span class="project-date">Summer 2026 (Ongoing)</span>
+        </div>
+        <div class="project-sub">Research Project · Madabhushi Lab</div>
+        <p class="project-desc">
+          Built <code>pretext_bench</code>, a harness that converts 3D contrast-enhanced liver CT into windowed
+          2D panels and evaluates open-source VLMs on the 15 PRETEXT pediatric liver-tumor staging questions
+          via an OpenAI-compatible vLLM/SGLang endpoint, with region-grounding back to voxel coordinates.
+        </p>
+        <div class="project-metrics">
+          <span class="metric">15 staging questions</span>
+          <span class="metric">multi-VLM benchmark</span>
+          <span class="metric">voxel-level grounding</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">EASE: Human-in-the-Loop Prompt Optimization for Pathology Segmentation</span>
+          <span class="project-date">Summer 2026</span>
+        </div>
+        <div class="project-sub">Research Project · Madabhushi Lab</div>
+        <p class="project-desc">
+          TextGrad-based iterative prompt optimization for VLM-guided tumor segmentation across bladder and
+          head-and-neck cancer, benchmarking KEEP, CONCH, and MUSK pathology foundation models with
+          organ-aware, atlas-guided ablations.
+        </p>
+        <div class="project-metrics">
+          <span class="metric">3 foundation models</span>
+          <span class="metric">2 organ systems</span>
+          <span class="metric">planned: Nature Methods</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">Agentic System for DIPG Drug Combination Discovery</span>
+          <span class="project-date">Spring 2026 (Ongoing)</span>
+        </div>
+        <div class="project-sub">Research Project · Madabhushi Lab</div>
+        <p class="project-desc">
+          Multi-agent (LangGraph) pipeline with biologist, pharmacologist, and oncologist agents proposing
+          drug combinations for DIPG from RNA-seq and a literature-grounded vector database — deployed on
+          Slurm with open-source LLMs, with iterative critique/feedback loops between agents.
+        </p>
+        <div class="project-metrics">
+          <span class="metric">3 specialized agents</span>
+          <span class="metric">open-source LLMs only</span>
+          <span class="metric">Slurm-deployed</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">Frugal LLM for Medical Diagnosis</span>
+          <span class="project-date">Fall 2025 (Ongoing)</span>
+        </div>
+        <div class="project-sub">Research Project · Madabhushi Lab</div>
+        <p class="project-desc">
+          A 3-phase agentic diagnostic pipeline — differential diagnosis, cost-constrained test selection,
+          final synthesis — validated on MIMIC-IV and eICU across 10 diseases, plus a clinician reader-study
+          app to evaluate diagnostic and test-selection quality against expert raters.
+        </p>
+        <div class="project-metrics">
+          <span class="metric">89% fewer tests</span>
+          <span class="metric">95% cost reduction</span>
+          <span class="metric">planned: Nature BME</span>
+        </div>
+      </div>
+
+      <div class="project-card">
+        <div class="project-head">
+          <span class="project-title">VLM Alignment for Pathology</span>
+          <span class="project-date">Spring 2025 – ongoing</span>
+        </div>
+        <div class="project-sub">Research Project with Dr. Anant Madabhushi</div>
+        <p class="project-desc">
+          Fine-tuning an LLM via caption contrastive learning to act as a CLIP text-encoder, aligned to the
+          pathology domain with SimCSE unsupervised training; building an interactive VLM agent for
+          human-in-the-loop pathology slide staining.
+        </p>
+        <div class="project-metrics">
+          <span class="metric">In review for Nature journal</span>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- EXPERIENCE -->
+  <section class="section reveal" id="experience">
+    <div class="section-label">experience</div>
+
+    <div class="exp-item">
+      <div class="exp-date">Fall 2023 — ongoing</div>
+      <div>
+        <div class="exp-role">Graduate Research Assistant</div>
+        <div class="exp-org">Janus Lab</div>
+        <p class="exp-desc">
+          Sentiment classification and aspect-term extraction with PyABSA (0.82 correlation with human coders);
+          BERTopic/K-Means semantic clustering; DistilBERT fine-tuning for toxic-content and memory
+          classification.
+        </p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">May — Aug 2024</div>
+      <div>
+        <div class="exp-role">Artificial Intelligence Intern</div>
+        <div class="exp-org">Infloso · Remote</div>
+        <p class="exp-desc">
+          Built AI agent systems (OpenAI, Gemini + RAG via autogen) for brand market insights, and a
+          full-stack real-time chat interface using PostgreSQL, ChromaDB, and WebSockets.
+        </p>
+      </div>
+    </div>
+
+    <div class="exp-item">
+      <div class="exp-date">Mar — Jun 2021</div>
+      <div>
+        <div class="exp-role">Analytics Intern, Supply Chain</div>
+        <div class="exp-org">ABB India Ltd. · Bangalore</div>
+        <p class="exp-desc">
+          Predictive analytics models for procurement cost estimation (10% expenditure reduction) and
+          Power BI dashboards for supply-chain visualization.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section reveal" id="education">
+    <div class="section-label">education</div>
+
+    <div class="edu-item">
+      <div>
+        <div class="edu-school">Georgia Institute of Technology</div>
+        <div class="edu-degree">PhD, Electrical and Computer Engineering · Madabhushi Lab</div>
+      </div>
+      <div class="edu-date">May 2025 – Present</div>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <div class="edu-school">Georgia Institute of Technology</div>
+        <div class="edu-degree">MS, Electrical and Computer Engineering · GPA 3.95</div>
+      </div>
+      <div class="edu-date">Aug 2023 – May 2025</div>
+    </div>
+
+    <div class="edu-item">
+      <div>
+        <div class="edu-school">BMS College of Engineering, Bangalore</div>
+        <div class="edu-degree">BE, Electrical and Electronics Engineering · GPA 9.63/10</div>
+      </div>
+      <div class="edu-date">Aug 2017 – May 2021</div>
+    </div>
+  </section>
+
+  <!-- PUBLICATIONS -->
+  <section class="section reveal" id="publications">
+    <div class="section-label">publications</div>
+    <div class="section-sub">Full list on <a href="https://scholar.google.com/citations?hl=en&user=sj7dA1MAAAAJ" target="_blank" rel="noopener" style="color: var(--accent);">Google Scholar ↗</a></div>
+
+    <div class="pub-item">
+      <strong>Large Language Models Memorize Sensor Datasets</strong> — Preprint, arXiv.
+      <br><a href="https://arxiv.org/pdf/2406.05900" target="_blank" rel="noopener">arxiv.org/pdf/2406.05900 ↗</a>
+    </div>
+    <div class="pub-item">
+      <strong>RGB Camera Based Object Detection and Object Coordinate Extraction</strong> — IEEE I2CT 2022.
+    </div>
+  </section>
+
+  <footer>
+    <p>Built by Nikhil Shanbhogue · <a href="mailto:nshanbhogue6@gatech.edu">nshanbhogue6@gatech.edu</a> · Atlanta, GA · <a href="https://scholar.google.com/citations?hl=en&user=sj7dA1MAAAAJ" target="_blank" rel="noopener">Google Scholar</a></p>
+  </footer>
+
+</div>
+
+<script>
+  // Terminal typing sequence
+  const cmdEl = document.getElementById('typedCmd');
+  const outEl = document.getElementById('terminalOutput');
+  const nameBlock = document.getElementById('nameBlock');
+  const command = "whoami --focus";
+  const outputs = [
+    { label: "name", value: "Nikhil Shanbhogue" },
+    { label: "role", value: "PhD Researcher, ECE @ Georgia Tech" },
+    { label: "focus", value: "agentic AI · VLMs · healthcare & oncology" },
+    { label: "status", value: "open to AI/ML engineering roles" }
+  ];
+
+  let i = 0;
+  function typeChar() {
+    if (i < command.length) {
+      cmdEl.textContent += command[i];
+      i++;
+      setTimeout(typeChar, 45);
+    } else {
+      cmdEl.classList.add('done');
+      setTimeout(printOutputs, 300);
+    }
+  }
+
+  function printOutputs() {
+    let idx = 0;
+    function printNext() {
+      if (idx < outputs.length) {
+        const line = document.createElement('div');
+        line.className = 'out';
+        line.innerHTML = `<span class="key">${outputs[idx].label}:</span> ${outputs[idx].value}`;
+        line.style.opacity = '0';
+        outEl.appendChild(line);
+        requestAnimationFrame(() => {
+          line.style.transition = 'opacity 0.35s ease';
+          line.style.opacity = '1';
+        });
+        idx++;
+        setTimeout(printNext, 220);
+      } else {
+        setTimeout(() => nameBlock.classList.add('show'), 150);
+      }
+    }
+    printNext();
+  }
+
+  setTimeout(typeChar, 400);
+
+  // Scroll reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('show');
+        io.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  revealEls.forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
